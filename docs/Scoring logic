@@ -1,0 +1,102 @@
+# SkillScore — Scoring Model
+
+This document defines **how a match score is computed**, independent of storage or transport.
+
+The scoring model is deterministic, decomposable, and explainable.
+
+---
+
+## 1. Scoring Philosophy
+
+- Matching is a **weighted aggregation problem**, not a prediction problem.
+- Every score must be explainable at component level.
+- No probabilistic or black-box models in core logic.
+
+Final score ∈ **[0, 100]**.
+
+---
+
+## 2. Scoring Components
+
+### Skill Match (Primary)
+
+- Intersection of normalized skills.
+- Weighted by skill importance defined in job role.
+
+### Experience Alignment
+
+- Years of experience vs required range.
+- Partial credit for near matches.
+
+### Role Relevance
+
+- Title and domain alignment.
+- Penalizes superficial keyword overlap.
+
+### Optional Signals
+
+- Education relevance
+- Certifications
+- Domain keywords
+
+Optional signals never outweigh core components.
+
+---
+
+## 3. Weighting Model
+
+Weights are configurable but versioned.
+
+Example (illustrative):
+
+- Skills: 50%
+- Experience: 30%
+- Role relevance: 15%
+- Optional signals: 5%
+
+Weight changes trigger score invalidation.
+
+---
+
+## 4. Normalization Rules
+
+- Case-insensitive matching.
+- Canonical skill mapping (e.g., “JS” → “JavaScript”).
+- Stopword elimination for role text.
+
+Normalization happens **before scoring**, never inline.
+
+---
+
+## 5. Score Calculation
+
+```
+FinalScore =
+  (SkillScore × SkillWeight) +
+  (ExperienceScore × ExperienceWeight) +
+  (RoleScore × RoleWeight) +
+  (OptionalScore × OptionalWeight)
+
+```
+
+Each component score ∈ [0,1].
+
+---
+
+## 6. Explainability Output
+
+Every MatchScore stores:
+
+- Component scores
+- Applied weights
+- Missing or weak areas
+
+This data is exposed via read APIs.
+
+---
+
+## 7. What the Scoring Model Does Not Do
+
+- No ML inference.
+- No cross-candidate comparison.
+- No adaptive learning in v1.
