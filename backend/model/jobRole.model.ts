@@ -1,6 +1,6 @@
 import {NormalizedRequirements} from "./jobRole.dto";
 
-export interface jobRole{
+export interface JobRole{
     job_role_id:string;
     version:number;
     title:string;
