@@ -122,6 +122,7 @@ export async function insertNewRoleVersion(
     // COASLESCE -> returns the first value that is NOT NULL
 
     // Need to mention ::varchar for $1 as postgres will get confused unknown type otherwise (in our case varchar)
+    // If a SQL parameter is used in multiple semantic contexts, always cast it explicitly.
     const sql = `
     INSERT into job_roles(
     job_role_id,
