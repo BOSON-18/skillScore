@@ -13,6 +13,8 @@ export function errorHandler(
 ) {
     //Domain expected Errors
 
+    console.log("Logging Error: ", err);
+
     if (err instanceof DomainError) {
         return res.status(400).json({
             status: "Failed",

@@ -120,6 +120,8 @@ export async function insertNewRoleVersion(
 
     // compute next_version inside the INSERT to keep it atomis
     // COASLESCE -> returns the first value that is NOT NULL
+
+    // Need to mention ::varchar for $1 as postgres will get confused unknown type otherwise (in our case varchar)
     const sql = `
     INSERT into job_roles(
     job_role_id,
@@ -129,13 +131,13 @@ export async function insertNewRoleVersion(
     requirements_hash
     )
     SELECT
-    $1,
+    $1::varchar,
     COALESCE(MAX(version), 0) + 1,
     $2,
     $3,
     $4
     FROM job_roles
-    WHERE job_role_id = $1
+    WHERE job_role_id = $1::varchar
     RETURNING
     job_role_id,
     version,

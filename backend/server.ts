@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import { createJobRoleController, updateJobRoleController } from "./controller/jobRole.controller";
 import { errorHandler } from "./middleware/error.middleware";
+import { validateBody } from "./middleware/validate.middleware";
+import { CreateJobRoleSchema, UpdateJobRoleSchema } from "./model/jobRole.schema";
 
 dotenv.config();
 
@@ -12,8 +14,9 @@ app.get("/health", (_req, res) => {
   res.status(200).json({ status: "OK" });
 });
 
-app.post("/job-roles", createJobRoleController);
-app.put("/job-roles/:job_role_id", updateJobRoleController);
+// zod middleware validation for request bodies -> coz we never trust req.body
+app.post("/job-roles",validateBody(CreateJobRoleSchema), createJobRoleController);
+app.put("/job-roles/:job_role_id",validateBody(UpdateJobRoleSchema), updateJobRoleController);
 
 // MUST be last
 app.use(errorHandler);
