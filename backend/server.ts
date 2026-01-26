@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { createJobRoleController, updateJobRoleController } from "./controller/jobRole.controller";
 import { errorHandler } from "./middleware/error.middleware";
 import { validateBody } from "./middleware/validate.middleware";
-import { CreateJobRoleSchema, UpdateJobRoleSchema } from "./model/jobRole.schema";
+import { CreateJobRoleSchema, UpdateJobRoleSchema } from "./model/jobRoleModel/jobRole.schema";
 
 dotenv.config();
 

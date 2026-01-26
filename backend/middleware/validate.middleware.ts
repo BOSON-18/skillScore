@@ -1,7 +1,7 @@
 import { Request,Response,NextFunction } from "express";
 import { ZodSchema } from "zod";
-import { DomainError } from "../model/domainError";
-import { JobRoleErrorReason } from "../model/error.types";
+import { DomainError } from "../model/errors/domainError";
+import { JobRoleErrorReason } from "../model/errors/error.types";
 
 
 

@@ -1,6 +1,6 @@
 import { query } from "./db"
-import { JobRole } from "../model/jobRole.model";
-import { NormalizedRequirements } from "../model/jobRole.dto";
+import { JobRole } from "../model/jobRoleModel/jobRole.model";
+import { NormalizedRequirements } from "../model/jobRoleModel/jobRole.dto";
 
 // Get Latest Job Role Version 
 export async function getlatestJobRoleVersion(

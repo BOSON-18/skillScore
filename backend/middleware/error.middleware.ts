@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { DomainError } from "../model/domainError";
+import { DomainError } from "../model/errors/domainError";
 import { DbError } from "../persistence/db";
-import { JobRoleErrorReason } from "../model/error.types";
+import { JobRoleErrorReason } from "../model/errors/error.types";
 
 
 

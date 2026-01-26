@@ -1,4 +1,4 @@
-import { DbError } from "../persistence/db";
+import { DbError } from "../../persistence/db";
 import { JobRoleErrorReason } from "./error.types";
 
 

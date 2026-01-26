@@ -1,9 +1,9 @@
 import { Domain } from "node:domain";
-import { DomainError } from "../model/domainError";
-import { JobRoleErrorReason } from "../model/error.types";
-import { JobRoleCreateRequestDTO, JobRoleUpdateRequestDTO } from "../model/jobRole.dto";
+import { DomainError } from "../model/errors/domainError";
+import { JobRoleErrorReason } from "../model/errors/error.types";
+import { JobRoleCreateRequestDTO, JobRoleUpdateRequestDTO } from "../model/jobRoleModel/jobRole.dto";
 import { JobRole } from "../model/jobRole.model";
-import { fingerprintRequirements } from "../model/requirements.fingerprint";
+import { fingerprintRequirements } from "../model/jobRoleModel/requirements.fingerprint";
 import { createNewJobRole, findLatestRoleByHash, getlatestJobRoleVersion, insertNewRoleVersion } from "../persistence/jobRole.persistence";
 
 
