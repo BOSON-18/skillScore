@@ -2,7 +2,7 @@
 // does not talk to DB , jobROle snapshot valid, kinda DTO
 
 
-function createJobRole({ jobRoleId, version, title, requiredSkills }) {
+function createJobRole({ jobRoleId, version, title,minYearsOfExperience, requiredSkills  }) {
     if (!jobRoleId) {
         throw new Error("jobnRoleId is required")
     }
@@ -18,7 +18,12 @@ function createJobRole({ jobRoleId, version, title, requiredSkills }) {
     if (!Array.isArray(requiredSkills)) {
         throw new Error("requiredSkills must be an array");
     }
-
+    if (
+        typeof minYearsOfExperience !== "number" ||
+        minYearsOfExperience < 0
+    ) {
+        throw new Error("minYearsOfExperience must be a non-negative number");
+    }
 
     // validate skills
     const normalizedSkills = requiredSkills.map((skill) => {
@@ -41,14 +46,15 @@ function createJobRole({ jobRoleId, version, title, requiredSkills }) {
         }
     })
 
-// object.freeze will create an immutable object 
+    // object.freeze will create an immutable object 
     return Object.freeze({
         jobRoleId,
         version,
         title,
+        minYearsOfExperience,
         requiredSkills: normalizedSkills
     })
 }
 
 
-module.exports = {createJobRole}
+module.exports = { createJobRole }

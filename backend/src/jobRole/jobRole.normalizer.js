@@ -2,10 +2,15 @@ const crypto = require("crypto")
 
 // normalize a job role defination into a canonical form -> used for comparison and fingerprinting
 
-function normalizeJobRoleDefination({ title, requiredSkills }) {
-
+function normalizeJobRoleDefination(data) {
+    // console.log(data)
+    // console.log("Checking yoe in normalizer ",data.minYearsOfExperience);
+    const { title,minYearsOfExperience, requiredSkills } = data
     if (!title || typeof title !== "string") {
         throw new Error("title is required for normalization");
+    }
+    if( typeof minYearsOfExperience !== "number" || minYearsOfExperience < 0){
+        throw new Error("minYears of experience must be a number");
     }
 
     if (!Array.isArray(requiredSkills)) {
@@ -35,6 +40,7 @@ function normalizeJobRoleDefination({ title, requiredSkills }) {
 
     return {
         title: normalizedTitle,
+        minYearsOfExperience,
         requiredSkills: normalizedSkills
     };
 }

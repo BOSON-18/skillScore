@@ -5,7 +5,10 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+     "migrate": "node-pg-migrate -c database.json -e dev",
+    "migrate:up": "node-pg-migrate -c database.json -e dev up",
+    "migrate:down": "node-pg-migrate -c database.json -e dev down"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +18,8 @@
     "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "nodemon": "^3.1.11"
+    "node-pg-migrate": "^8.0.4",
+    "nodemon": "^3.1.11",
+    "pg": "^8.17.2"
   }
 }

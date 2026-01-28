@@ -11,14 +11,16 @@ const { getLatestJobRoleVersion, savejobRole, getJobRoleByVersion: getJobRole } 
 
 async function createNewJobRoleVersion(input) {
 
-    const { jobRoleId, title, requiredSkills } = input;
+    const { jobRoleId, title, minYearsOfExperience , requiredSkills } = input;
 
-    if (!jobRoleId || !title || !requiredSkills) {
+    console.log("YOE in service" , minYearsOfExperience)
+
+    if (!jobRoleId || !title || !requiredSkills || !minYearsOfExperience) {
         throw new Error("Invalid job role input");
     }
 
     const normalizedIncoming = normalizeJobRoleDefination({
-        title, requiredSkills
+        title, minYearsOfExperience, requiredSkills
     });
 
     const incomingFingerprint = fingerprintJobRoleDefination(normalizedIncoming);
@@ -27,24 +29,30 @@ async function createNewJobRoleVersion(input) {
 
     // TODO: Persist Hash alsofor O(1) comparison and uniqueness
     if (latestRole) {
+
+        console.log("Checking latest Role: ",latestRole);
         const normalizedLatest = normalizeJobRoleDefination({
             title: latestRole.title,
+            minYearsOfExperience:latestRole.minYearsOfExperience,
             requiredSkills: latestRole.requiredSkills
         })
 
-        const latestFingerptint = fingerprintJobRoleDefination(normalizedLatest);
+        const latestFingerprint = fingerprintJobRoleDefination(normalizedLatest);
+            
+        if (incomingFingerprint === latestFingerprint) {
 
-        if (incomingFingerprint === latestFingerptint) {
+            console.log("Latest role is same as input")
             return latestRole;
         }
     }
 
-    const nextVersion = latestRole ? latestRole + 1 : 1;
+    const nextVersion = latestRole ? latestRole.version + 1 : 1;
 
     const jobRole = createJobRole({
         jobRoleId,
         version: nextVersion,
         title,
+        minYearsOfExperience,
         requiredSkills
     })
 
@@ -71,8 +79,8 @@ async function getJobRoleByVersion(jobRoleId, version) {
 
 
     const role = await getJobRole(jobRoleId, version);
-
-    if (!role) {
+    console.log("Checking role ",role)
+    if (role === null) {
         throw new InvalidJobRoleInputError(
             `Job role ${jobRoleId} version ${version} not found`
         );
@@ -87,7 +95,7 @@ async function getLatestJobRole(jobRoleId) {
         throw new InvalidJobRoleInputError("jobRoleId is required");
     }
 
-    const role = await getLatestJobRole(jobRoleId);
+    const role = await getLatestJobRoleVersion(jobRoleId);
 
     if (!role) {
         throw new JobRoleNotFoundError(
