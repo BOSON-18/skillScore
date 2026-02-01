@@ -5,7 +5,7 @@ const crypto = require("crypto")
 function normalizeJobRoleDefination(data) {
     // console.log(data)
     // console.log("Checking yoe in normalizer ",data.minYearsOfExperience);
-    const { title,minYearsOfExperience, requiredSkills } = data
+    const { title,minYearsOfExperience,maxYearsOfExperience, requiredSkills } = data
     if (!title || typeof title !== "string") {
         throw new Error("title is required for normalization");
     }
@@ -41,6 +41,7 @@ function normalizeJobRoleDefination(data) {
     return {
         title: normalizedTitle,
         minYearsOfExperience,
+        maxYearsOfExperience: maxYearsOfExperience?? null,
         requiredSkills: normalizedSkills
     };
 }
@@ -50,9 +51,9 @@ function normalizeJobRoleDefination(data) {
 // same meaning == same hash
 
 function fingerprintJobRoleDefination(normalizedDefinaion) {
-    const serialized = JSON.stringify(normalizedDefinaion);
+    const payload = JSON.stringify(normalizedDefinaion);
 
-    return crypto.createHash("sha256").update(serialized).digest("hex");
+    return crypto.createHash("sha256").update(payload).digest("hex");
 }
 
 

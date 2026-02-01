@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const jobRoleController = require("./jobRole/jobRole.controller")
+const matchRequestController = require("./matchResult/matchRequest.controller")
 
 function createApp() {
 
@@ -15,7 +16,8 @@ function createApp() {
         })
     })
     
-    app.use("/job-roles", jobRoleController)
+    app.use("/job-roles", jobRoleController);
+    app.use("/match-requests",matchRequestController)
     return app;
 
 }

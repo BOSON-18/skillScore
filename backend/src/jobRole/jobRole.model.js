@@ -2,7 +2,7 @@
 // does not talk to DB , jobROle snapshot valid, kinda DTO
 
 
-function createJobRole({ jobRoleId, version, title,minYearsOfExperience, requiredSkills  }) {
+function createJobRole({ jobRoleId, version, title,minYearsOfExperience,maxYearsOfExperience, requiredSkills  }) {
     if (!jobRoleId) {
         throw new Error("jobnRoleId is required")
     }
@@ -23,6 +23,12 @@ function createJobRole({ jobRoleId, version, title,minYearsOfExperience, require
         minYearsOfExperience < 0
     ) {
         throw new Error("minYearsOfExperience must be a non-negative number");
+    }
+
+    if(maxYearsOfExperience !== undefined){
+        if(typeof maxYearsOfExperience !== "number" || maxYearsOfExperience < minYearsOfExperience){
+            throw new Error("maxYearsOfExperience must be >= minYearsOfExperience")
+        }
     }
 
     // validate skills
@@ -52,6 +58,7 @@ function createJobRole({ jobRoleId, version, title,minYearsOfExperience, require
         version,
         title,
         minYearsOfExperience,
+        maxYearsOfExperience: maxYearsOfExperience ?? null,
         requiredSkills: normalizedSkills
     })
 }

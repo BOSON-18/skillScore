@@ -4,11 +4,12 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js",
-     "migrate": "node-pg-migrate -c database.json -e dev",
+    "test": "jest --runInBand",
+    "dev": "concurrently \"nodemon src/server.js\" \"nodemon src/consumer.js\"",
+    "migrate": "node-pg-migrate -c database.json -e dev",
     "migrate:up": "node-pg-migrate -c database.json -e dev up",
-    "migrate:down": "node-pg-migrate -c database.json -e dev down"
+    "migrate:down": "node-pg-migrate -c database.json -e dev down",
+    "test:load": "k6 run load/api-load.js"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +19,14 @@
     "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "groq-sdk": "^0.37.0",
+    "kafkajs": "^2.2.4",
     "node-pg-migrate": "^8.0.4",
     "nodemon": "^3.1.11",
     "pg": "^8.17.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "jest": "^30.2.0"
   }
 }

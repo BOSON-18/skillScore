@@ -11,16 +11,16 @@ const { getLatestJobRoleVersion, savejobRole, getJobRoleByVersion: getJobRole } 
 
 async function createNewJobRoleVersion(input) {
 
-    const { jobRoleId, title, minYearsOfExperience , requiredSkills } = input;
+    const { jobRoleId, title, minYearsOfExperience , maxYearsOfExperience, requiredSkills } = input;
 
-    console.log("YOE in service" , minYearsOfExperience)
+    // console.log("YOE in service" , minYearsOfExperience)
 
     if (!jobRoleId || !title || !requiredSkills || !minYearsOfExperience) {
         throw new Error("Invalid job role input");
     }
 
     const normalizedIncoming = normalizeJobRoleDefination({
-        title, minYearsOfExperience, requiredSkills
+        title, minYearsOfExperience,maxYearsOfExperience, requiredSkills
     });
 
     const incomingFingerprint = fingerprintJobRoleDefination(normalizedIncoming);
@@ -34,6 +34,7 @@ async function createNewJobRoleVersion(input) {
         const normalizedLatest = normalizeJobRoleDefination({
             title: latestRole.title,
             minYearsOfExperience:latestRole.minYearsOfExperience,
+            maxYearsOfExperience: latestRole.maxYearsOfExperience ??null,
             requiredSkills: latestRole.requiredSkills
         })
 
@@ -53,6 +54,7 @@ async function createNewJobRoleVersion(input) {
         version: nextVersion,
         title,
         minYearsOfExperience,
+        maxYearsOfExperience,
         requiredSkills
     })
 

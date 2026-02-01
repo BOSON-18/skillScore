@@ -24,7 +24,7 @@ async function getAllJobRoles(){
 // output Promise<Objcet|null>
 async function savejobRole(jobRole) {
 
-    const { jobRoleId, version, title, minYearsOfExperience, requiredSkills } = jobRole;
+    const { jobRoleId, version, title, minYearsOfExperience,maxYearsOfExperience, requiredSkills } = jobRole;
 
     const query = ` 
     INSERT INTO job_roles(
@@ -32,12 +32,13 @@ async function savejobRole(jobRole) {
     version,
     title,
     min_years_of_experience,
+    max_years_of_experience,
     required_skills)
-    VALUES($1,$2,$3,$4,$5)
+    VALUES($1,$2,$3,$4,$5,$6)
     `;
 
     await pool.query(query, [
-        jobRoleId, version, title,minYearsOfExperience, JSON.stringify(requiredSkills)
+        jobRoleId, version, title,minYearsOfExperience,maxYearsOfExperience, JSON.stringify(requiredSkills)
     ])
 
 }
@@ -53,6 +54,7 @@ async function getLatestJobRoleVersion(jobRoleId) {
     version,
     title,
     min_years_of_experience,
+    max_years_of_experience,
     required_skills
     FROM job_roles
     WHERE job_role_id = $1
@@ -80,6 +82,7 @@ async function getJobRoleByVersion(jobRoleId, version) {
     version,
     title,
     min_years_of_experience,
+    max_years_of_experience,
     required_skills
     FROM job_roles
     WHERE job_role_id = $1
@@ -103,6 +106,7 @@ function mapRowToJobRole(row) {
         version: row.version,
         title: row.title,
         minYearsOfExperience: row.min_years_of_experience,
+        maxYearsOfExperience : row.max_years_of_experience,
         requiredSkills: row.required_skills
     }
 }

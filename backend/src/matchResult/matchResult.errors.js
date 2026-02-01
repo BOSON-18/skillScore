@@ -1,0 +1,10 @@
+const MatchResultErrorReason = Object.freeze({
+    INVALID_REQUEST : "INVALID_REQUEST",
+    ROLE_NOT_FOUND : "ROLE_NOT_FOUND",
+    RESUME_NOT_FOUND : "RESUME_NOT_FOUND",
+    UNSUPPORTED_SCHEMA : "UNSUPPORTED_SCHEMA",
+    INTERNAL_ERROR: "INTERNAL_ERROR",
+    OVERQUALIFIED: "OVERQUALIFIED"
+});
+
+module.exports = { MatchResultErrorReason};

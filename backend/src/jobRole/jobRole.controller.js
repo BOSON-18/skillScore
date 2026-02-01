@@ -29,11 +29,11 @@ router.get("/", async(req,res)=>{
 router.post("/", async (req, res) => {
     try {
 
-        const { jobRoleId, title, minYearsOfExperience,requiredSkills  } = req.body;
+        const { jobRoleId, title, minYearsOfExperience,maxYearsOfExperience,requiredSkills  } = req.body;
         console.log("Checking YOE in controller ",minYearsOfExperience)
 
         const jobRole = await createNewJobRoleVersion({
-            jobRoleId, title,minYearsOfExperience, requiredSkills
+            jobRoleId, title,minYearsOfExperience,maxYearsOfExperience, requiredSkills
         });
         return res.status(201).json(jobRole);
 
