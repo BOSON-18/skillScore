@@ -2,7 +2,7 @@ const Groq = require("groq-sdk");
 
 
 const client = new Groq({
-    apiKey: process.env.GROQ_API_KEY
+    apiKey: GROQ_API_KEY
 });
 
 async function callLLM(prompt) {

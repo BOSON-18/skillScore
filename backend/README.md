@@ -184,3 +184,59 @@ If the worker crashes:
 Kafka redelivers
 
 DB uniqueness + claim makes it safe
+
+
+
+
+
+
+Results
+THRESHOLDS
+
+    http_req_duration
+
+    ✓ 'p(95)<50' p(95)=4.5ms
+
+    http_req_failed
+
+    ✓ 'rate<0.05' rate=0.00%
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 600    0.999999/s
+
+    checks_succeeded...: 99.83% 599 out of 600
+
+    checks_failed......: 0.16%  1 out of 600
+
+    ✓ status is 202
+
+    ✗ response time <50ms
+
+      ↳  99% — ✓ 299 / ✗ 1
+
+    HTTP
+
+    http_req_duration..............: avg=3.44ms   min=1.52ms   med=3.18ms   max=73.88ms  p(90)=4.11ms   p(95)=4.5ms
+
+      { expected_response:true }...: avg=3.44ms   min=1.52ms   med=3.18ms   max=73.88ms  p(90)=4.11ms   p(95)=4.5ms
+
+    http_req_failed................: 0.00% 0 out of 300
+
+    http_reqs......................: 300   0.5/s
+
+    EXECUTION
+
+    iteration_duration.............: avg=504.11ms min=501.87ms med=503.69ms max=581.03ms p(90)=504.83ms p(95)=505.39ms
+
+    iterations.....................: 300   0.5/s
+
+    vus............................: 0     min=0        max=0
+
+    vus_max........................: 10    min=10       max=10
+
+    NETWORK
+
+    data_received..................: 79 kB 131 B/s
+
+    data_sent......................: 62 kB 103 B/s

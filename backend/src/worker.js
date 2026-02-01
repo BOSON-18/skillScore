@@ -1,15 +1,44 @@
 const {getLatestJobRoleVersion} = require("./jobRole/jobRole.repository");
 const {computeAndPersistMatch} = require("./matchResult/matchResult.service");
+const { Pool } = require("pg");
+
+const pool = new Pool({
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME || "skillscore_dev",
+    user: process.env.DB_USER || "postgres",
+    password: process.env.DB_PASSWORD || "postgres"
+})
 
 //  TEMP stub - real service later
 console.log("File loaded")
 async function fetchResumeSnapshot(resumeSnapshotId){
 
-    // will replace with real fetch or MCP later
-    return{
-        skills:["React","Javascript"],
-        yearsOfExperience: 2
-    };
+    const result = await pool.query(
+    `SELECT 
+      resume_snapshot_id as "resumeSnapshotId",
+      name,
+      skills,
+      years_of_experience as "yearsOfExperience",
+      experience
+     FROM resume_snapshots 
+     WHERE resume_snapshot_id = $1`,
+    [resumeSnapshotId]
+  );
+
+  if (result.rows.length === 0) {
+    throw new Error(`Resume snapshot not found: ${resumeSnapshotId}`);
+  }
+
+  const row = result.rows[0];
+  
+  return {
+    resumeSnapshotId: row.resumeSnapshotId,
+    name: row.name,
+    skills: row.skills, // Already parsed by pg (JSONB)
+    yearsOfExperience: row.yearsOfExperience,
+    experience: row.experience
+  };
 }
 
 
