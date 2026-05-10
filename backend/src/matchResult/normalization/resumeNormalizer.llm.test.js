@@ -1,4 +1,7 @@
 const { normalizeResumeForRoleLLM } = require("./resumeNormalizer.llm");
+const { callLLM } = require("../../llm/llmClient");
+
+jest.mock("../../llm/llmClient");
 
 const role = {
   requiredSkills: [
@@ -12,9 +15,13 @@ const resumeSnapshot = {
   experience: 2
 };
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 
 test("returns normalized resume when LLM output is valid", async () => {
-  const callLLM = jest.fn().mockResolvedValue(JSON.stringify({
+  callLLM.mockResolvedValue(JSON.stringify({
     normalizedSkills: ["react"],
     yearsOfExperience: 2,
     evidence: {
@@ -24,8 +31,7 @@ test("returns normalized resume when LLM output is valid", async () => {
 
   const result = await normalizeResumeForRoleLLM({
     resumeSnapshot,
-    role,
-    callLLM
+    role
   });
 
   expect(result.normalizedSkills).toEqual(["react"]);
@@ -34,7 +40,7 @@ test("returns normalized resume when LLM output is valid", async () => {
 
 
 test("rejects LLM output with hallucinated skill", async () => {
-  const callLLM = jest.fn().mockResolvedValue(JSON.stringify({
+  callLLM.mockResolvedValue(JSON.stringify({
     normalizedSkills: ["react", "node"],
     yearsOfExperience: 3
   }));
@@ -42,30 +48,19 @@ test("rejects LLM output with hallucinated skill", async () => {
   await expect(
     normalizeResumeForRoleLLM({
       resumeSnapshot,
-      role,
-      callLLM
+      role
     })
   ).rejects.toThrow("validation");
 });
 
 
 test("rejects invalid JSON from LLM", async () => {
-  const callLLM = jest.fn().mockResolvedValue("not-json");
+  callLLM.mockResolvedValue("not-json");
 
-  await expect(
-    normalizeResumeForRoleLLM({
-      resumeSnapshot,
-      role,
-      callLLM
-    })
-  ).rejects.toThrow("invalid JSON");
-});
-
-test("throws if callLLM is missing", async () => {
   await expect(
     normalizeResumeForRoleLLM({
       resumeSnapshot,
       role
     })
-  ).rejects.toThrow("callLLM");
+  ).rejects.toThrow("invalid JSON");
 });

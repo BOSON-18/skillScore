@@ -1,8 +1,9 @@
 const Groq = require("groq-sdk");
-
+const dotenv = require("dotenv");
+dotenv.config();
 
 const client = new Groq({
-    apiKey: GROQ_API_KEY
+    apiKey: process.env.GROQ_API_KEY
 });
 
 async function callLLM(prompt) {

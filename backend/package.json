@@ -9,7 +9,8 @@
     "migrate": "node-pg-migrate -c database.json -e dev",
     "migrate:up": "node-pg-migrate -c database.json -e dev up",
     "migrate:down": "node-pg-migrate -c database.json -e dev down",
-    "test:load": "k6 run load/api-load.js"
+    "test:load": "k6 run load/api-load.js",
+    "test:load:realistic": "k6 run load/realistic-llm-test.js"
   },
   "keywords": [],
   "author": "",

@@ -10,7 +10,7 @@ async function normalizeResumeForRoleLLM({ resumeSnapshot, role }) {
     console.log("[NORMALIZER] checking")
 
     const allowedSkills = role.requiredSkills.map(s => s.name);
-    console.log("[Normalizer] ",allowedSkills)
+    console.log("[Normalizer] allowed skills",allowedSkills)
 
     const prompt = `
 You are a resume normalization engine.
@@ -37,7 +37,7 @@ Output format:
 
     let raw;
     try {
-        console.log("RAW [NORMALIZER}")
+        // console.log("RAW [NORMALIZER}")
         raw = await callLLM(prompt);
 
         console.log("[Normalizer] raw: ", raw);

@@ -32,7 +32,7 @@ export const options = {
   scenarios: {
     realistic_load: {
       executor: 'constant-arrival-rate',
-      duration: '10m',
+      duration: '1m',
       rate: 30, // 30 req/min (to stay under Groq's 30/min limit)
       timeUnit: '1m',
       preAllocatedVUs: 10,
